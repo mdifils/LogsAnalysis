@@ -1,0 +1,26 @@
+vagrant@vagrant:/vagrant$ python3 logs_analysis.py
+Connected to database
+
+
+Here are the most popular articles by views
+
+1: candidate-is-jerk --- 338647 views
+2: bears-love-berries --- 253801 views
+3: bad-things-gone --- 170098 views
+
+
+Here are the most popular authors
+
+1: Ursula La Multa --- 507594 views
+2: Rudolf von Treppenwitz --- 423457 views
+3: Anonymous Contributor --- 170098 views
+4: Markoff Chaney --- 84557 views
+
+
+Here is the days on which more than 1% of requests lead to errors
+
+1: Sunday July 17, 2016 --- 2.26% errors
+
+
+
+vagrant@vagrant:/vagrant$
