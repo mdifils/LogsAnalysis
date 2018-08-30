@@ -1,10 +1,11 @@
+#!/usr/bin/env python3
 """This program make some SQL queries to fetch and analyse data in the news
 database. Then print the result out."""
 
 import logdb
 
 
-############ Creating some views to make queries more readable #################
+# ---------- Creating some views to make queries more readable ----------------
 # INNER JOIN between author table and articles one
 AUTHOR_SLUG = """CREATE VIEW author_slug AS
                 SELECT name, slug
@@ -46,7 +47,7 @@ ERRORS_PERCENT = """CREATE VIEW errors_percent AS
                     FROM errors_per_day, requests_per_day
                     WHERE errors_per_day.date = requests_per_day.date;"""
 
-######################### SELECT QUERIES ######################################
+# ----------------------- SELECT QUERIES --------------------------------------
 # Only errors > 1% are selected
 MOST_ERRORS = """SELECT TO_CHAR(date, 'FMDay FMMonth DD, YYYY') AS day, percent
                  FROM errors_percent
@@ -63,7 +64,7 @@ POPULAR_AUTHOR = """SELECT name, sum(views) AS total
                   GROUP BY name
                   ORDER BY total DESC;"""
 
-######################## CONNECTING TO DATABASE ###############################
+# ---------------------- CONNECTING TO DATABASE -------------------------------
 
 # Notice that I'm using the 'with' notation, meaning that psycopg2 will
 # automatically close the connection and even commit the query if necessary
@@ -78,7 +79,7 @@ with logdb.connect() as connection:
     TOP_AUTHOR = logdb.select(connection, POPULAR_AUTHOR)
     MOST_ERRORS_DAY = logdb.select(connection, MOST_ERRORS)
 
-##################### PRINTING ANALYSIS RESULTS ###############################
+# ------------------- PRINTING ANALYSIS RESULTS -------------------------------
 
 print("\n\nHere are the most popular articles by views\n")
 for index, data in enumerate(TOP_ARTICLES):
@@ -88,15 +89,17 @@ print("\n\nHere are the most popular authors\n")
 for index, data in enumerate(TOP_AUTHOR):
     print("{}: {} --- {} views".format(index+1, data[0], data[1]))
 
-print("\n\nHere is the days on which more than 1% of requests lead to errors\n")
+print("\n\nHere is the days on which more \
+than 1% of requests lead to errors\n")
 for index, data in enumerate(MOST_ERRORS_DAY):
     print("{}: {} --- {}% errors".format(index+1, data[0], data[1]))
 
 print("\n\n")
 
-############ DELETING VIEWS CREATED JUST FOR QUERIES READABILITY ##############
+# ---------- DELETING VIEWS CREATED JUST FOR QUERIES READABILITY --------------
 
-VIEWS = ["errors_percent", "errors_per_day", "requests_per_day", "slug_views", "author_slug"]
+VIEWS = ["errors_percent", "errors_per_day",
+         "requests_per_day", "slug_views", "author_slug"]
 with logdb.connect() as connection:
     for table in VIEWS:
         logdb.drop_view(connection, table)
