@@ -23,10 +23,25 @@ Here is a screenshot of my program output
 ![Program output](img/Output.png)
 
 ### Code  
-To have a glance to the code, please check the files: logdb.py and logs_analysis.py <br>
-To have the same result like in the preview, run the file logs_analysis.py .
-Be aware that the code has been written using python3 syntax and that the two files need to be in the same location. <br>
-
+To have a glance to the code, please check the files: `logdb.py` and
+`logs_analysis.py`.
+<br>
+Notice that I used 2 python files for readability and maintenance reasons.
+In order to not repeat myself with same code blocks, I created some functions in
+the `logdb.py` file and I used them in the `logs_analysis.py` file. The latter
+file has 3 main sections, in the first section you can find all the SQL queries
+as python strings and all the psycopg2 commands to execute those queries. In the
+second section, you can find a bunch of python code which extracts the data
+fetched from the database and prints the result in plain text. The last section
+of the code is just to drop all SQL `views` so that you can run this program
+over and over without any error.
+<br>
+So you don't need neither to manually create those `views` nor to manually drop
+them. To have the same result like in the preview, run the file logs_analysis.py.
+After running this program the database remain in the same state (unchanged).
+Be aware that the code has been written using python3 syntax and that the two
+files need to be in the same location. 
+<br>
 Please find below the SQL queries that have been used along side with the psycopg2
 cursor class and execute() method to create views. For more details, refer to the
 python files provided which are clear, readable and well commented.
